@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تنزيل الفيديو</title>
+    <style>
+        body {
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.8));
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        .input-area {
+            margin: 20px 0;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .download-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(90deg, rgba(255, 0, 255, 1), rgba(0, 255, 255, 1));
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .download-button:hover {
+            transform: scale(1.1);
+        }
+        .log-area {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            color: #0f0;
+        }
+        /* Additional styles for ads can be added here */
+        .ad-placeholder {
+            margin: 20px 0;
+            padding: 50px;
+            background: rgba(255, 255, 0, 0.5);
+            border-radius: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>أداة تنزيل الفيديو</h1>
+        <div class="input-area">
+            <input type="text" id="videoUrl" placeholder="أدخل رابط الفيديو هنا...">
+        </div>
+        <button class="download-button" onclick="initiateDownload()">تنزيل</button>
+        <div class="ad-placeholder">إعلانات هنا</div>
+        <div class="log-area" id="logArea">سجل التنزيلات:</div>
+    </div>
+
+    <script>
+        function initiateDownload() {
+            const videoUrl = document.getElementById("videoUrl").value;
+            const logArea = document.getElementById("logArea");
+            logArea.innerHTML += `جاري تنزيل الفيديو من: ${videoUrl} <br>`;
+            
+            // Simulate download process
+            setTimeout(() => {
+                logArea.innerHTML += `تنزيل الفيديو من ${videoUrl} اكتمل!<br>`;
+            }, 3000);
+
+            // Integrate with Cobalt API here
+            
+        }
+    </script>
+
+</body>
+</html>
