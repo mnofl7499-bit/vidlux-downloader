@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidDown - محمل الفيديوهات الفائق</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Cyber Grid Background Animation */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(138, 43, 226, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(138, 43, 226, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 20%, rgba(138, 43, 226, 0.15), transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(75, 0, 130, 0.1), transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8a2be2, #da70d6, #9370db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.8)); }
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #a0a0c0;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Main Card */
+        .main-card {
+            background: rgba(20, 20, 35, 0.6);
+            backdrop-filter: blur(35px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.8s ease-out;
+            margin-bottom: 25px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #c0c0e0;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(138, 43, 226, 0.05);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 15px;
+            color: #e0e0ff;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #8a2be2;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+            background: rgba(138, 43, 226, 0.1);
+        }
+
+        input[type="text"]::placeholder {
+            color: #6a6a8a;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8a2be2, #9370db);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Ad Station */
+        .ad-station {
+            background: rgba(30, 30, 50, 0.6);
+            backdrop-filter: blur(35px);
+            border-radius: 25px;
+            padding: 30px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            margin-bottom: 25px;
+            animation: fadeInUp 1s ease-out;
+            text-align: center;
+        }
+
+        .ad-station h3 {
+            font-size: 1.1rem;
+            color: #a0a0c0;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .ad-content {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(138, 43, 226, 0.05);
+            border-radius: 15px;
+            border: 1px dashed rgba(138, 43, 226, 0.2);
+        }
+
+        /* Terminal Logger */
+        .terminal-logger {
+            display: none;
+            background: rgba(10, 10, 20, 0.95);
+            backdrop-filter: blur(35px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .terminal-logger.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .terminal-line {
+            padding: 8px 0;
+            color: #00ff88;
+            font-size: 0.95rem;
+            opacity: 0;
+            animation: terminalLine 0.5s ease-out forwards;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 0.2s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.8s; }
+        .terminal-line:nth-child(3) { animation-delay: 1.4s; }
+
+        @keyframes terminalLine {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Platform Icons */
+        .platforms {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .platform-icon:hover {
+            background: rgba(138, 43, 226, 0.2);
+            border-color: #8a2be2;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: auto;
+            color: #6a6a8a;
+            font-size: 0.9rem;
+        }
+
+        .footer-note {
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .github-link {
+            color: #8a2be2;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .github-link:hover {
+            color: #da70d6;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .main-card {
+                padding: 30px 20px;
+            }
+
+            .platform-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .platform-icon {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+    <div class="gradient-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="logo">⚡ VidDown</h1>
+            <p class="tagline">محمل الفيديوهات الاحترافي</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="main-card">
+            <div class="input-group">
+                <label for="videoUrl">🔗 الصق رابط الفيديو هنا</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="videoUrl" 
+                        placeholder="https://youtube.com/watch?v=..."
+                        autocomplete="off"
+                    >
+                </div>
+            </div>
+
+            <button class="download-btn" onclick="initiateDownload()">
+                🚀 تنزيل الآن
+            </button>
+
+            <!-- Terminal Logger -->
+            <div class="terminal-logger" id="terminalLogger">
+                <div class="terminal-line">⏳ جاري التحقق من البروتوكولات...</div>
+                <div class="terminal-line">🚀 جاري الربط بأسرع محرك عالمي...</div>
+                <div class="terminal-line">✅ جاهز! جاري التحويل للتحميل المباشر...</div>
+            </div>
+        </div>
+
+        <!-- Ad Station -->
+        <div class="ad-station">
+            <h3>💎 دعم المجتمع</h3>
+            <div class="ad-content">
+                <script src='https://pl28671468.effectivegatecpm.com/90/73/6f/90736ff9e0517a5122ee0d308442d244.js'></script>
+            </div>
+        </div>
+
+        <!-- Platform Icons -->
+        <div class="platforms">
+            <div class="platform-icon" title="TikTok - بدون علامة مائية">📱</div>
+            <div class="platform-icon" title="YouTube">▶️</div>
+            <div class="platform-icon" title="Instagram">📷</div>
+            <div class="platform-icon" title="Facebook">👍</div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="footer-note">صُنع بـ 💜 من أجل مجتمع التحميل</p>
+            <a href="https://github.com/mnof17499-bit/vid-down" class="github-link" target="_blank">
+                ⭐ GitHub: mnof17499-bit/vid-down
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        function initiateDownload() {
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const terminalLogger = document.getElementById('terminalLogger');
+
+            // Validate URL
+            if (!videoUrl) {
+                alert('⚠️ الرجاء إدخال رابط الفيديو أولاً!');
+                return;
+            }
+
+            // Basic URL validation
+            try {
+                new URL(videoUrl);
+            } catch (e) {
+                alert('⚠️ الرابط غير صالح! تأكد من إدخال رابط صحيح.');
+                return;
+            }
+
+            // Show terminal logger
+            terminalLogger.classList.add('active');
+
+            // After animation completes (2.5s), redirect to SaveFrom.net
+            setTimeout(() => {
+                const saveFromUrl = `https://en.savefrom.net/1-youtube-video-downloader-360/url?url=${encodeURIComponent(videoUrl)}`;
+                window.open(saveFromUrl, '_blank');
+                
+                // Hide terminal after redirect
+                setTimeout(() => {
+                    terminalLogger.classList.remove('active');
+                }, 500);
+            }, 2500);
+        }
+
+        // Allow Enter key to trigger download
+        document.getElementById('videoUrl').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                initiateDownload();
+            }
+        });
+
+        // Clear terminal on input change
+        document.getElementById('videoUrl').addEventListener('input', function() {
+            document.getElementById('terminalLogger').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
